@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "3a038b06-3e70-43fb-bbc7-056ec064c405",
+		"name": "Get Weather Data with Excludes",
+		"description": "Collection of API tests for OpenWeatherMap",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27763244"
+	},
+	"item": [
+		{
+			"name": "Get Weather Data with Excludes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(`Response body contains '${pm.variables.get(\"exclude\")}' property`, function () {",
+							"    pm.expect(pm.response.json()).to.not.have.property(pm.variables.get(\"exclude\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://{{base_url}}/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&exclude={{exclude}}&appid={{api_key}}",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data",
+						"3.0",
+						"onecall"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "{{latitude}}"
+						},
+						{
+							"key": "lon",
+							"value": "{{longitude}}"
+						},
+						{
+							"key": "exclude",
+							"value": "{{exclude}}"
+						},
+						{
+							"key": "appid",
+							"value": "{{api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "latitude",
+			"value": "-37.813629"
+		},
+		{
+			"key": "longitude",
+			"value": "144.963058"
+		},
+		{
+			"key": "api_key",
+			"value": "910faa89685be9e9b32f77680afed8f1"
+		},
+		{
+			"key": "base_url",
+			"value": "api.openweathermap.org"
+		},
+		{
+			"key": "exclude",
+			"value": "minutely"
+		}
+	]
+}

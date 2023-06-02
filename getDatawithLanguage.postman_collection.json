@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "85518fd3-ade0-481a-a243-876534c62770",
+		"name": "Get Weather Data with  Language code",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27763244"
+	},
+	"item": [
+		{
+			"name": "Get Weather Data with  Language code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var languageCode = pm.variables.get(\"languageCode\");",
+							"var pattern =new RegExp(pm.variables.get(\"pattern\"));",
+							"console.log(`Testing language: ${languageCode}`);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"var weatherDescription = pm.response.json().current.weather[0].description;",
+							"var isMatch = pattern.test(weatherDescription);",
+							"",
+							"pm.test(`Response current weather '${weatherDescription}' is in '${languageCode}'`, function () {",
+							"    console.log(weatherDescription)",
+							"    pm.expect(isMatch).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid={{api_key}}&lang={{languageCode}}",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"3.0",
+						"onecall"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "{{latitude}}"
+						},
+						{
+							"key": "lon",
+							"value": "{{longitude}}"
+						},
+						{
+							"key": "appid",
+							"value": "{{api_key}}"
+						},
+						{
+							"key": "lang",
+							"value": "{{languageCode}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "latitude",
+			"value": "-37.813629"
+		},
+		{
+			"key": "longitude",
+			"value": "144.963058"
+		},
+		{
+			"key": "api_key",
+			"value": "910faa89685be9e9b32f77680afed8f1"
+		},
+		{
+			"key": "base_url",
+			"value": "api.openweathermap.org"
+		},
+		{
+			"key": "languageCode",
+			"value": ""
+		},
+		{
+			"key": "pattern",
+			"value": ""
+		}
+	]
+}
