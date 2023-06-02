@@ -1,6 +1,15 @@
 # postmanPractice
 
 This repository contain 3 collection :
+
+to run them together 
+
+```
+chmod +x newmanAPItest.sh
+./newmanAPItest.sh   
+
+```
+
 to run singleTestOpenWeatherCollection.postman_collection
 
 ```
