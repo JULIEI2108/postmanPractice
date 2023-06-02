@@ -6,9 +6,11 @@ to run them together
 
 ```
 chmod +x newmanAPItest.sh
+
 ./newmanAPItest.sh   
 
 ```
+
 
 to run singleTestOpenWeatherCollection.postman_collection
 
@@ -17,6 +19,7 @@ newman run singleTestOpenWeatherCollection.postman_collection.json
 
 ```
 
+
 to run getDatawithLanguage.postman_collection
 
 ```
@@ -24,6 +27,9 @@ newman run getDatawithLanguage.postman_collection.json -d language.csv
 
 ```
 This collection will loop through language.csv file to check all language code and check if response match regex pattern
+
+
+
 to run getDatawithExcludes.postman_collection
 
 ```
