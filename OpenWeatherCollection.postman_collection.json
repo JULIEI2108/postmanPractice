@@ -151,397 +151,1112 @@
 			"name": "TestOnlyRunOnce",
 			"item": [
 				{
-					"name": "Get Weather Data",
-					"event": [
+					"name": "GetWeatherDatavalidTest",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
-									"pm.test(\"Response body contains 'current'\", function () {",
-									"    var responseBody = pm.response.json();",
-									"    pm.expect(responseBody).to.have.property(\"current\");",
-									"});",
-									"",
-									"var tempKelvin = pm.response.json().current.temp",
-									"pm.collectionVariables.set(\"tempKelvin\", tempKelvin)",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "https://{{base_url}}/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid={{api_key}}",
-							"protocol": "https",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"data",
-								"3.0",
-								"onecall"
-							],
-							"query": [
+							"name": "GetWeatherDatavalidTest",
+							"event": [
 								{
-									"key": "lat",
-									"value": "{{latitude}}"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "lon",
-									"value": "{{longitude}}"
-								},
-								{
-									"key": "appid",
-									"value": "{{api_key}}"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid={{api_key}}",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Missing API Key",
-					"event": [
+					"name": "TestforLatitudeandLongitude",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}",
-							"host": [
-								"api",
-								"openweathermap",
-								"org"
-							],
-							"path": [
-								"data",
-								"3.0",
-								"onecall"
-							],
-							"query": [
+							"name": "Invalid Longitude 181",
+							"event": [
 								{
-									"key": "lat",
-									"value": "{{latitude}}"
-								},
-								{
-									"key": "lon",
-									"value": "{{longitude}}"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
+											"    pm.expect(pm.response.json().message).to.equal(\"wrong longitude\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon=181&appid={{api_key}}",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "181"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Longitude -181",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
+											"    pm.expect(pm.response.json().message).to.equal(\"wrong longitude\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon=-181&appid={{api_key}}",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "-181"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Latitude 91",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
+											"    pm.expect(pm.response.json().message).to.equal(\"wrong latitude\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat=91&lon={{longitude}}&appid={{api_key}}",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "91"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Latitude-91",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
+											"    pm.expect(pm.response.json().message).to.equal(\"wrong latitude\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat=-91&lon={{longitude}}&appid={{api_key}}",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "-91"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid Longitude -180",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat={{latitude}}&lon=-180&appid={{api_key}}",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "-180"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid Longitude 180",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat={{latitude}}&lon=180&appid={{api_key}}",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "180"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid Longitude 0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat={{latitude}}&lon=0&appid={{api_key}}",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "0"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid Latitude 90",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat=90&lon={{longitude}}&appid={{api_key}}",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "90"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid Latitude -90",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat=-90&lon={{longitude}}&appid={{api_key}}",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "-90"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid Latitude 0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat=0&lon={{longitude}}&appid={{api_key}}",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "0"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Missing Latitude",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
+											"    pm.expect(pm.response.json().message).to.equal(\"Nothing to geocode\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lon={{longitude}}&appid={{api_key}}",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Missing Longitude",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
+											"    pm.expect(pm.response.json().message).to.equal(\"Nothing to geocode\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&appid={{api_key}}",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Invalid Longitude",
-					"event": [
+					"name": "TestforUnitsParameter",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 200ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
-									"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
-									"    pm.expect(pm.response.json().message).to.equal(\"wrong latitude\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "api.openweathermap.org/data/3.0/onecall?lat=999&lon={{longitude}}&appid={{api_key}}",
-							"host": [
-								"api",
-								"openweathermap",
-								"org"
-							],
-							"path": [
-								"data",
-								"3.0",
-								"onecall"
-							],
-							"query": [
+							"name": "change Units Parameter to standard",
+							"event": [
 								{
-									"key": "lat",
-									"value": "999"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'current'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"current\");",
+											"});",
+											"",
+											"var tempKelvin = pm.response.json().current.temp",
+											"pm.collectionVariables.set(\"tempKelvin\", tempKelvin)",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "lon",
-									"value": "{{longitude}}"
-								},
-								{
-									"key": "appid",
-									"value": "{{api_key}}"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{base_url}}/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid={{api_key}}&units=standard",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										},
+										{
+											"key": "units",
+											"value": "standard"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change Units Parameter to metric",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Check the temp is in Celsius\", function () {",
+											"    pm.expect(pm.response.json().current.temp).to.be.lessThan(pm.variables.get('tempKelvin') - 270);",
+											"});",
+											"",
+											"var tempCelsius= pm.response.json().current.temp",
+											"pm.collectionVariables.set(\"tempCelsius\", tempCelsius)",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid={{api_key}}&units=metric",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										},
+										{
+											"key": "units",
+											"value": "metric"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change Units Parameter to imperial",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Check the temp is in Celsius\", function () {",
+											"    pm.expect(pm.response.json().current.temp).to.be.greaterThan(pm.variables.get('tempCelsius'));",
+											"    pm.expect(pm.response.json().current.temp).to.be.lessThan(pm.variables.get('tempKelvin'))",
+											"",
+											"",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid={{api_key}}&units=imperial",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{api_key}}"
+										},
+										{
+											"key": "units",
+											"value": "imperial"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Invalid Latitude",
-					"event": [
+					"name": "TestforAPIKey",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
-									"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
-									"    pm.expect(pm.response.json().message).to.equal(\"wrong latitude\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "api.openweathermap.org/data/3.0/onecall?lat=999&lon={{longitude}}&appid={{api_key}}",
-							"host": [
-								"api",
-								"openweathermap",
-								"org"
-							],
-							"path": [
-								"data",
-								"3.0",
-								"onecall"
-							],
-							"query": [
+							"name": "Missing API Key",
+							"event": [
 								{
-									"key": "lat",
-									"value": "999"
-								},
-								{
-									"key": "lon",
-									"value": "{{longitude}}"
-								},
-								{
-									"key": "appid",
-									"value": "{{api_key}}"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'message'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"message\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "change Units Parameter",
-					"event": [
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
-									"pm.test(\"Check the temp is in Celsius\", function () {",
-									"    pm.expect(pm.response.json().current.temp).to.be.lessThan(pm.variables.get('tempKelvin') - 270);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid={{api_key}}&units=Metric",
-							"host": [
-								"api",
-								"openweathermap",
-								"org"
-							],
-							"path": [
-								"data",
-								"3.0",
-								"onecall"
-							],
-							"query": [
+							"name": "invalid API Key",
+							"event": [
 								{
-									"key": "lat",
-									"value": "{{latitude}}"
-								},
-								{
-									"key": "lon",
-									"value": "{{longitude}}"
-								},
-								{
-									"key": "appid",
-									"value": "{{api_key}}"
-								},
-								{
-									"key": "units",
-									"value": "Metric"
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"pm.test(\"Response body contains 'message'\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property(\"message\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Missing Longitude",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
-									"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
-									"    pm.expect(pm.response.json().message).to.equal(\"Nothing to geocode\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&appid={{api_key}}",
-							"host": [
-								"api",
-								"openweathermap",
-								"org"
 							],
-							"path": [
-								"data",
-								"3.0",
-								"onecall"
-							],
-							"query": [
-								{
-									"key": "lat",
-									"value": "{{latitude}}"
-								},
-								{
-									"key": "appid",
-									"value": "{{api_key}}"
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "api.openweathermap.org/data/3.0/onecall?lat={{latitude}}&lon={{longitude}}&appid=helloworld",
+									"host": [
+										"api",
+										"openweathermap",
+										"org"
+									],
+									"path": [
+										"data",
+										"3.0",
+										"onecall"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{latitude}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{longitude}}"
+										},
+										{
+											"key": "appid",
+											"value": "helloworld"
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Missing Latitude",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
-									"pm.test(\"Response body contains 'wrong latitude' message\", function () {",
-									"    pm.expect(pm.response.json().message).to.equal(\"Nothing to geocode\");",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "api.openweathermap.org/data/3.0/onecall?lon={{longitude}}&appid={{api_key}}",
-							"host": [
-								"api",
-								"openweathermap",
-								"org"
-							],
-							"path": [
-								"data",
-								"3.0",
-								"onecall"
-							],
-							"query": [
-								{
-									"key": "lon",
-									"value": "{{longitude}}"
-								},
-								{
-									"key": "appid",
-									"value": "{{api_key}}"
-								}
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
@@ -565,6 +1280,10 @@
 		},
 		{
 			"key": "tempKelvin",
+			"value": ""
+		},
+		{
+			"key": "tempCelsius",
 			"value": ""
 		}
 	]
