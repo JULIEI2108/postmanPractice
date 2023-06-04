@@ -5,8 +5,7 @@ This collection contain 3 test folder , 2 of them require external data filess.
 to run them together, use this command:
 
 ```
- newman run OpenWeatherCollection.postman_collection.json --folder "GetWeatherDatawithLanguagecode" -d language.csv -r cli,json --reporter-json-export combined-results.json && newman run OpenWeatherCollection.postman_collection.json --folder "GetWeatherDatawithExcludes" -d exclude.csv -r cli,json --reporter-json-export combined-results.json && newman run OpenWeatherCollection.postman_collection.json --folder "TestOnlyRunOnce" -r cli,json --reporter-json-export combined-results.json
-
+ newman run OpenWeatherCollection.postman_collection.json --folder "GetWeatherDatawithLanguagecode" -d language.csv && newman run OpenWeatherCollection.postman_collection.json --folder "GetWeatherDatawithExcludes" -d exclude.csv && newman run OpenWeatherCollection.postman_collection.json --folder "TestOnlyRunOnce" 
 ```
 
 
