@@ -99,7 +99,7 @@
 									"var weatherDescription = pm.response.json().current.weather[0].description;",
 									"var isMatch = pattern.test(weatherDescription);",
 									"",
-									"pm.test(`Response current weather '${weatherDescription}' is in '${languageCode}'`, function () {",
+									"pm.test(`Response current weather '${weatherDescription}' is in language '${languageCode}'`, function () {",
 									"    console.log(weatherDescription)",
 									"    pm.expect(isMatch).to.be.true;",
 									"});"
@@ -172,7 +172,28 @@
 											"    pm.expect(responseBody).to.have.property(\"current\");",
 											"});",
 											"",
-											""
+											"var expectedLat = pm.variables.get(\"latitude\");",
+											"",
+											"var responseBody = pm.response.json();",
+											"",
+											"var responseLat = responseBody.lat;",
+											"",
+											"var difference = Math.abs(responseLat - expectedLat);",
+											"",
+											"pm.test(\"Latitude difference is less than 1\", function () {",
+											"    pm.expect(difference).to.be.below(1);",
+											"});",
+											"",
+											"var expectedLng = pm.variables.get(\"longitude\");",
+											"var responseBody = pm.response.json();",
+											"",
+											"var responseLng = responseBody.lon;",
+											"",
+											"var difference = Math.abs(responseLng - expectedLng);",
+											"",
+											"pm.test(\"Longitude difference is less than 1\", function () {",
+											"    pm.expect(difference).to.be.below(1);",
+											"});"
 										],
 										"type": "text/javascript"
 									}

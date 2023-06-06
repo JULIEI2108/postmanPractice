@@ -30,7 +30,7 @@ no,^[a-zA-Z\s]*$
 nl,^[a-zA-Z\s]*$
 pl,^[a-zA-Ząćęłńóśźż\s]*$
 pt,[A-Za-zÀ-ú]+
-pt_br,[\u00C0-\u00FF]
+pt_br,[a-zA-ZÀ-ÿ]
 ro,^[a-zA-ZăâîșțĂÂÎȘȚ\s]*$
 ru,^[а-яА-Я\s]*$
 sv,^[a-zA-ZåäöÅÄÖ\s]*$
